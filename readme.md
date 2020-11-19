@@ -4,7 +4,7 @@
 
 ### How it works
 
-OpenOffsite acts as the gateway to an offsite raid system, where your data is split up into 5 (this is an arbitrary number, need to research what is optimal) parts and then shared across our network of users onto different servers across the globe. Your local copy of your data is used by you, and in the event that your hard drive fails or is damaged, you can recover your data from the network of servers.
+OpenOffsite acts as the gateway to an offsite raid system, where your data is split up into 5 parts and then shared across our network of users onto different servers across the globe. Your local copy of your data is used by you, and in the event that your hard drive fails or is damaged, you can recover your data from the network of servers.
 
 This file split-up and encryption utilizes an open-source project called [horcrux](https://github.com/jesseduffield/horcrux). In our service, we split your file into 5 parts in such a manner that only 3 are required to piece all of your data back together. This means that even if 2 of your 5 backups go offline or are corrupted, you can still piece together your data.
 
@@ -37,10 +37,6 @@ Furthermore, by utilizing another open-source tool called [croc](https://github.
 
 ### FAQs
 
-#### Q: How is this different from other options, such as [FileCoin](https://filecoin.io/)?
-
-A: FileCoin caters primarily to the public dataset market. While possible to store private data, it is most efficient in terms of public data storage and quite frankly solves a different use case in that regard. Where FileCoin provides fast and cheap file access to areas further from data centers and helps break the market free of monopoly pricing, OpenOffsite aims to provide the self-hosting crowd with a free option (at the expense of storage) to easily store data as purely a backup, and not a main content delivery network for said data.
-
 #### Q: Should I be worried about the privacy of my data and server?
 
 A: No! By using [horcrux](https://github.com/jesseduffield/horcrux), a malicious actor would need to gain access to at least three of your different backups. Locating these backups would require breaching our server's AND your server for your API key. In the event that this level of security is not enough for you, in OpenOffsite's configuration you are able to select an encryption algorithm and key to use so that your data is encrypted before being horcruxed. In addition to data security, your server does not need to be made public on the internet in any regard. All your server needs to do is remain online with a stable internet connection so that it can monitor our server's and watch for any data requests. All data transfers are made in a peer-to-peer manner in order to optimize speed and decrease database hosting costs. These transfers are routed through a proxy, however, so your IP is never made known to anyone else.
@@ -48,3 +44,20 @@ A: No! By using [horcrux](https://github.com/jesseduffield/horcrux), a malicious
 #### Q: What kind of data is stored on your server's and why is it not on Blockchain?
 
 A: First off, we elected not to use blockchain in order to speed up our service, improve security, and prevent anyone from needing to store even more data to keep the blockchain up to date. When you download our code and sign up to use our network, you are given an API key. In our database, we then record how much data you are able and willing to store and how much you have stored. We also keep track of what servers are storing your horcruxes and what servers you are storing horcruxes for. In addition, we periodically ping your server to check its uptime and keep track of the running uptime percentage. In order to speed up our data transfer process, we also log your average internet speeds (both upload and download) so that we can try and match you with others that have similar speeds, this way, neither server has to wait exceptionally long for the other. Lastly, we keep the checksums of all your horcruxes in order to run periodic authenticity checks.
+
+#### Q: Is this different from [Sia](https://sia.tech) or [Filebase](https://filebase.com/)?
+
+A: Sia uses blockchain to store data across a massive network of devices. Unlike Sia's crypto model involving hosts and renters, OpenOffsite requires you to only store other people's data which makes you both a host and renter. In our model, this means no crypto mining or upfront purchases of a crypto are required.
+
+Filebase is essentially a simplified wrapper for Sia. Under the Filebase model, you use real money to purchase your storage, which is then backed up on Sia in a 10 of 30 configuration (we use 3 of 5).
+
+Both of these options are different as they require a monetary investment to begin storing data, where we don't even have a way of receiving said payments. Under our model, there is also less wasted money, as the majority of the time this backup data is not touched and never used, so there are very few times that your server will be using significant amounts of bandwidth, whereas Sia/Filebase are designed to be targeted towards more frequently accessed data.
+
+#### Q: How is this different from other options, such as [FileCoin](https://filecoin.io/)?
+
+A: FileCoin caters primarily to the public dataset market. While possible to store private data, it is most efficient in terms of public data storage and quite frankly solves a different use case in that regard. Where FileCoin provides fast and cheap file access to areas further from data centers and helps break the market free of monopoly pricing, OpenOffsite aims to provide the self-hosting crowd with a free option (at the expense of storage) to easily store data as purely a backup, and not a main content delivery network for said data.
+
+### Notes:
+
+-   The 3 out of 5 configuration we have listed is just an arbitrary choice. Research by our team is under way to determine an optimal configuration.
+-   5x the storage you want to use is also an estimate and rough guess. The plan is that if your file takes 4.7x it's original space locally to be backed up and encrypted, we will round that up to 5x the space required so that there is never an excess of data trying to be stored.
